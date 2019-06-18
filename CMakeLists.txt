@@ -487,8 +487,11 @@ IF (NOT CMAKE_BUILD_TYPE MATCHES Debug)
     ADD_DEFINITIONS("-DNDEBUG")
 ENDIF()
 
+TARGET_LINK_LIBRARIES(aspect "/home/djneuh/models/software/fastscape/libfastscapelib_fortran.so")
+
 FIND_PACKAGE(PerpleX QUIET
   HINTS ./contrib/perplex/install/ ../ ../../ ${PERPLEX_DIR} $ENV{PERPLEX_DIR})
+
 IF(${PerpleX_FOUND})
   MESSAGE(STATUS "PerpleX found at ${PerpleX_INCLUDE_DIR}")
   INCLUDE_DIRECTORIES(${PerpleX_INCLUDE_DIR})
