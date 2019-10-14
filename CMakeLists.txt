@@ -483,7 +483,6 @@ ENDIF()
 FIND_LIBRARY(FASTSCAPE NAMES fastscapelib_fortran PATHS $ENV{FASTSCAPE_DIR} ${FASTSCAPE_DIR} PATH_SUFFIXES lib NO_DEFAULT_PATH)
 IF(FASTSCAPE)
   MESSAGE(STATUS "FastScape found at ${FASTSCAPE}")
-  TARGET_LINK_LIBRARIES(aspect "${FASTSCAPE}")
 ELSE()
   FIND_FILE(FASTSCAPE_SRC fastscape.cc HINTS "${CMAKE_SOURCE_DIR}/source/mesh_deformation")
   LIST(REMOVE_ITEM TARGET_SRC ${FASTSCAPE_SRC})
@@ -498,6 +497,13 @@ DEAL_II_SETUP_TARGET(${TARGET})
 # Note: If deal.II decides in the future to define this, this can be removed.
 IF (NOT CMAKE_BUILD_TYPE MATCHES Debug)
     ADD_DEFINITIONS("-DNDEBUG")
+ENDIF()
+
+# Library needs to be linked after executable is added, but if fastscape isn't found
+# then the .cc files need to be removed before.
+# TODO: find a way to do this where they don't have to be separated.
+IF(FASTSCAPE)
+  TARGET_LINK_LIBRARIES(${TARGET} ${FASTSCAPE})
 ENDIF()
 
 FIND_PACKAGE(PerpleX QUIET
