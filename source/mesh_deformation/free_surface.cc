@@ -175,16 +175,13 @@ namespace aspect
         AssertThrow(velocity_boundary_indicators.find(p) == velocity_boundary_indicators.end(),
                     ExcMessage("The free surface mesh deformation plugin cannot be used with the current velocity boundary conditions"));
 
-      this->get_signals().set_assemblers.connect(
-        [&](const SimulatorAccess<dim> &sim_access,
-            aspect::Assemblers::Manager<dim> &assemblers)
-      {
-        this->set_assemblers(sim_access, assemblers);
-      });
-    }
 
+      /*this->get_signals().set_assemblers.connect(std::bind(&FreeSurface<dim>::set_assemblers,
+                                                           std::cref(*this),
+                                                           std::placeholders::_1,
+                                                           std::placeholders::_2));*/
 
-
+<<<<<<< HEAD
     template <int dim>
     void FreeSurface<dim>::set_assemblers(const SimulatorAccess<dim> &,
                                           aspect::Assemblers::Manager<dim> &assemblers) const
@@ -205,8 +202,9 @@ namespace aspect
           update_quadrature_points |
           update_normal_vectors |
           update_JxW_values);
+=======
+>>>>>>> move stabilization to interface
     }
-
 
 
     template <int dim>
